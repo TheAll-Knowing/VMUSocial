@@ -2,14 +2,13 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\LikePostController;
 use App\Http\Controllers\UnLikePostController;
 use App\Http\Controllers\AddPostCommentController;
 use App\Http\Controllers\AddPostController;
 use App\Http\Controllers\FollowUserController;
 use App\Http\Controllers\UnFollowUserController;
-use App\Http\Controllers\ChangeAvatarController;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,6 +27,8 @@ use Inertia\Response;
 
 Route::get('/', [HomeController::class, 'index'])->name('/');
 Route::get('/profile/{user:username}', [ProfileController::class, 'index'])->name('profile.show');
+Route::get('/post/{post}', [PostController::class, 'index'])->name('post.show');
+
 Route::middleware('auth')->group(function () {
     Route::get('/accounts/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/accounts/edit', [ProfileController::class, 'update'])->name('profile.update');

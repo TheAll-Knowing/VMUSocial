@@ -27,6 +27,8 @@
         "moment": "^2.29.4",
         "react-dropzone": "^14.2.3",
         "react-image-file-resizer": "^0.4.8",
+        "react-slick": "^0.29.0",
+        "slick-carousel": "^1.8.1",
         "tailwind-scrollbar-hide": "^1.1.7"
     }
 }

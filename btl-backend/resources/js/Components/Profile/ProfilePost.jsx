@@ -18,7 +18,7 @@ export default function ProfilePost(props) {
                     onClick={()=>setIsPostModalOpen(true)}
                 >
                     <div className={`bg-gray-800 bg-opacity-50 h-full w-full absolute " +
-                        " inset-0 z-10 flex items-center justify-center text-white ${showOverlay ? "" : "hidden"}`}
+                        " inset-0 z-10 flex items-center justify-center text-white cursor-pointer ${showOverlay ? "" : "hidden"}`}
                          onMouseLeave={() => setShowOverlay(false)}>
                         <FontAwesomeIcon icon={["fas", "fa-heart"]} />
                         <span className="ml-2">{post.likes_count}</span>

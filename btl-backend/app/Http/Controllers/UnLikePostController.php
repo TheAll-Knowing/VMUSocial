@@ -13,14 +13,11 @@ class UnLikePostController extends Controller
         $userId = Auth::user()->getAuthIdentifier();
         $postLike = PostLike::where([
             'user_id' => $userId,
-            'post_id' => $request->id
+            'post_id' => $request->postId
         ])->first();
 
         if ($postLike) {
             $postLike->delete();
-            return 'deleted';
         }
-
-        return 'not deleted';
     }
 }

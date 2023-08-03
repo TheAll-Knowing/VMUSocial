@@ -1,12 +1,11 @@
-import avt from "./assets/tx8oe0m8c2ka1.png";
-export default function ProfileHighlights() {
+export default function ProfileHighlights({user}) {
     return(
         <>
             <div className="flex flex-row p-2 content-center justify-center mb-8 space-x-2 md:space-x-10 text-sm font-semibold w-full overflow-auto">
                 <div>
                     <a href="">
                          <div className="border p-1 rounded-full">
-                             <img src={avt}
+                             <img src={`/storage/`+user.image}
                                   alt="story"
                                   className="rounded-full"
                                   width="80"/>
@@ -19,7 +18,7 @@ export default function ProfileHighlights() {
                 <div>
                     <a href="">
                         <div className="border p-1 rounded-full">
-                            <img src={avt}
+                            <img src={`/storage/`+user.image}
                                  alt="story"
                                  className="rounded-full"
                                  width="80"/>
@@ -32,7 +31,7 @@ export default function ProfileHighlights() {
                 <div>
                     <a href="">
                         <div className="border p-1 rounded-full">
-                            <img src={avt}
+                            <img src={`/storage/`+user.image}
                                  alt="story"
                                  className="rounded-full"
                                  width="80"/>
@@ -45,7 +44,7 @@ export default function ProfileHighlights() {
                 <div>
                     <a href="">
                         <div className="border p-1 rounded-full">
-                            <img src={avt}
+                            <img src={`/storage/`+user.image}
                                  alt="story"
                                  className="rounded-full"
                                  width="80"/>

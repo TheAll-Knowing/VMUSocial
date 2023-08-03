@@ -1,14 +1,13 @@
-import Modal from "@/Components/Modal.jsx";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
+import {Head, useForm} from "@inertiajs/react";
+import img from "@/Components/assets/tx8oe0m8c2ka1.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import moment from "moment/moment.js";
-import {isLikedByUser} from "@/Components/Helpers.jsx";
 import {useRef, useState} from "react";
-import {useForm} from "@inertiajs/react";
-export default function ModalPost(props) {
-    const {open, setOpen, post, currentUserId} = props;
-    if (!post) {
-        return;
-    }
+import {isLikedByUser} from "@/Components/Helpers.jsx";
+import moment from "moment/moment.js";
+import Footer from "@/Components/Profile/Footer.jsx";
+export default function Index({auth,post}) {
+    const currentUserId = auth.user.id;
     const [liked, setLiked] = useState(isLikedByUser(currentUserId, post.likes));
     const ref = useRef(null);
     const { data, setData, post:postt, processing, reset } = useForm({
@@ -60,68 +59,64 @@ export default function ModalPost(props) {
             }
         }
     };
-    return(
+    return (
         <>
-            <Modal open={open} setOpen={setOpen} size="lg">
-                <div className="flex flex-row h-full">
-                    <div className="w-3/5 bg-black flex items-center">
-                        <img src={`/storage/`+post.image} alt=""/>
-                    </div>
-                    <div className="w-2/5 relative pt-16">
-                        <div className="absolute top-0 w-full p-3 flex flex-row border-b">
-                            <div className="flex-1">
-                                    <a href={route('profile.show', post.user.username)}>
-                                        <img className="rounded-full w-8 max-w-none inline" src={`/storage/`+post.user.image} alt="avt"/>
-                                    </a>
-                                    <a href={route('profile.show', post.user.username)} className="ml-3">
-                                        <span className="font-medium text-sm hover:text-gray-500">
-                                            {post.user.username}
-                                        </span>
-                                    </a>
-                            </div>
-                            <div className="cursor-pointer">
-                                <FontAwesomeIcon icon="fa-solid fa-ellipsis" />
-                            </div>
+            <div className="flex">
+                <AuthenticatedLayout
+                    user={auth.user}
+                >
+                    <Head title={post.caption} />
+                </AuthenticatedLayout>
+                <div className="container pt-10 max-w-5xl">
+                    <div className="flex flex-row h-5/6 max-h-[40rem]">
+                        <div className="w-3/5 bg-black flex items-center">
+                            <img src={`/storage/`+post.image} alt=""/>
                         </div>
-                            <div className="overflow-scroll scrollbar-hide h-full pb-48">
+                        <div className="w-2/5 relative pt-16">
+                            <div className="absolute top-0 w-full p-3 flex flex-row border-b">
+                                <div className="flex-1">
+                                    <a >
+                                        <img className="rounded-full w-8 max-w-none inline" src={`/storage/`+post.user.image} alt=""/>
+                                        <span className="font-medium text-sm ml-2">
+                                    {post.user.username}
+                                </span>
+                                    </a>
+                                </div>
+                                <div className="cursor-pointer">
+                                    <FontAwesomeIcon icon="fa-solid fa-ellipsis" />
+                                </div>
+                            </div>
+                            <div className="overflow-y-scroll h-full pb-48">
                                 <div className="flex flex-row p-3">
                                     <div>
-                                        <a href={route('profile.show', post.user.username)}>
-                                            <img className="rounded-full w-8 max-w-none inline"
-                                                 src={`/storage/`+post.user.image} alt=""/>
-                                        </a>
+                                        <img className="rounded-full w-8 max-w-none inline"
+                                             src={`/storage/`+post.user.image} alt=""/>
                                     </div>
                                     <div>
                                         <div className="px-3 text-sm">
-                                            <a href={route('profile.show', post.user.username)}>
-                                                <span className="font-medium hover:text-gray-500">
-                                                {post.user.username}
-                                            </span>
-                                            </a>
-                                            <span className="ml-2">{post.caption}</span>
+                                        <span className="font-medium mr-2">
+                                            {post.user.username}
+                                        </span>
+                                            {post.caption}
                                         </div>
                                     </div>
                                 </div>
-                                {post.comments && post.comments.map((comment) => (
+                                {post.comments && post.comments.map((comment, index) => (
                                     <div className="flex flex-row p-3" key={comment.id}>
-                                        <div>
-                                            <a href={route('profile.show', comment.user.username)}>
-                                                <img src={`/storage/`+comment.user.image}
-                                                     className="rounded-full w-8 max-w-none inline"
-                                                     alt=""/>
-                                            </a>
-                                        </div>
+                                        <a href={route('profile.show', comment.user.username)}>
+                                            <img src={`/storage/`+comment.user.image}
+                                                 className="rounded-full w-8 max-w-none inline"
+                                                 alt=""/>
+                                        </a>
                                         <div className="grow relative">
                                             <div className="px-4 text-sm">
-                                                <a href={route('profile.show', comment.user.username)}>
-                                                    <span className="font-medium hover:text-gray-500">
-                                                        {comment.user.username}
-                                                    </span>
-                                                </a>
-                                                <span className="ml-2">{comment.comment}</span>
+                                        <a href={route('profile.show', comment.user.username)} className="font-medium mr-2">
+                                            {comment.user.username}
+                                        </a>
+                                                {comment.comment}
                                             </div>
                                             <a
-                                               className="absolute top-0 right-0 block float-right text-xs cursor-pointer">
+                                                className="absolute top-0 right-0 block float-right text-xs cursor-pointer">
                                                 <FontAwesomeIcon icon={["far", "fa-heart"]} />
                                             </a>
                                         </div>
@@ -149,7 +144,7 @@ export default function ModalPost(props) {
                                     </div>
                                 </div>
                                 <div className="font-medium text-sm px-3">
-                                    { post.likes_count } likes
+                                    { post.likes.length } likes
                                 </div>
                                 <div className="text-gray-500 uppercase px-3 text-xs tracking-wide my-3">
                                     {moment(post.created_at).fromNow()}
@@ -180,9 +175,11 @@ export default function ModalPost(props) {
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </div>
+                    <Footer></Footer>
                 </div>
-            </Modal>
+            </div>
         </>
     );
 }

@@ -4,6 +4,7 @@ export default function ModalPostActions(props) {
     const [isBg1, setIsBg1] = useState(false);
     const [isBg2, setIsBg2] = useState(false);
     const [isBg3, setIsBg3] = useState(false);
+    const [isBg4, setIsBg4] = useState(false);
     return(
         <>
             <Modal {...props} size="xs">
@@ -18,6 +19,12 @@ export default function ModalPostActions(props) {
                         onMouseLeave={() => setIsBg2(false)}  className={`${isBg2 ? "bg-gray-200" : ""}`}>
                         <a href="" className="border-b text-center py-3 block text-red-600">
                             Unfollow
+                        </a>
+                    </li>
+                    <li onMouseDown={() => setIsBg4(true)} onMouseUp={() => setIsBg4(false)}
+                        onMouseLeave={() => setIsBg4(false)}  className={`${isBg4 ? "bg-gray-200" : ""}`}>
+                        <a href={route('post.show', props.id)} className="border-b text-center py-3 block">
+                            Go to post
                         </a>
                     </li>
                     <li onMouseDown={() => setIsBg3(true)} onMouseUp={() => setIsBg3(false)}

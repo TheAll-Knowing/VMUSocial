@@ -1,4 +1,6 @@
-export default function Suggestions() {
+import FollowSuggestion from "@/Components/Home/FollowSuggestion.jsx";
+
+export default function Suggestions({suggestions}) {
     return(
         <>
             <div className="flex flex-row pt-5">
@@ -6,70 +8,34 @@ export default function Suggestions() {
                     Suggested for you
                 </div>
                 <div className="w-32 text-sm text-right">
-                    <a href="" className="text-black-400 text-xs">See All</a>
+                    <a href="#" className="text-black-400 text-xs">See All</a>
                 </div>
             </div>
             <ul className="p-1">
-                <div className="flex py-2">
-                    <div className="flex items-center">
-                        <a href="" className="inline-block align-top">
-                            <img className="rounded-full" src="https://randomuser.me/api/portraits/women/1.jpg"
-                                 alt=""
-                                 width="35"/>
-                        </a>
-                        <div className="inline-block ml-2">
-                            <a href="" className="text-sm font-medium">
-                                User1123
-                            </a>
-                            <div className="text-gray-500 text-xs">
-                                Suggested for you
+                {suggestions.map((suggestion) => {
+                    return (
+                        <div key={suggestion.id} className="flex py-2">
+                            <div className="flex items-center">
+                                <a href={route('profile.show', suggestion.username)} className="inline-block align-top">
+                                    <img className="rounded-full" src={`/storage/`+suggestion.image}
+                                         alt=""
+                                         width="35"/>
+                                </a>
+                                <div className="inline-block ml-2">
+                                    <a href={route('profile.show', suggestion.username)} className="text-sm font-medium">
+                                        {suggestion.username}
+                                    </a>
+                                    <div className="text-gray-500 text-xs">
+                                        Suggested for you
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex-1 items-center flex justify-end">
+                                <FollowSuggestion id={suggestion.id}></FollowSuggestion>
                             </div>
                         </div>
-                    </div>
-                    <div className="flex-1 items-center flex justify-end">
-                        <a href="" className="text-xs text-sky-500 font-bold hover:text-sky-900">Follow</a>
-                    </div>
-                </div>
-                <div className="flex py-2">
-                    <div className="flex items-center">
-                        <a href="" className="inline-block align-top">
-                            <img className="rounded-full" src="https://randomuser.me/api/portraits/men/12.jpg"
-                                 alt=""
-                                 width="35"/>
-                        </a>
-                        <div className="inline-block ml-2">
-                            <a href="" className="text-sm font-medium">
-                                User1123
-                            </a>
-                            <div className="text-gray-500 text-xs">
-                                Suggested for you
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex-1 items-center flex justify-end">
-                        <a href="" className="text-xs text-sky-500 font-bold hover:text-sky-900">Follow</a>
-                    </div>
-                </div>
-                <div className="flex py-2">
-                    <div className="flex items-center">
-                        <a href="" className="inline-block align-top">
-                            <img className="rounded-full" src="https://randomuser.me/api/portraits/men/3.jpg"
-                                 alt=""
-                                 width="35"/>
-                        </a>
-                        <div className="inline-block ml-2">
-                            <a href="" className="text-sm font-medium">
-                                User1123
-                            </a>
-                            <div className="text-gray-500 text-xs">
-                                Suggested for you
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex-1 items-center flex justify-end">
-                        <a href="" className="text-xs text-sky-500 font-bold hover:text-sky-900">Follow</a>
-                    </div>
-                </div>
+                    );
+                })}
             </ul>
         </>
     );

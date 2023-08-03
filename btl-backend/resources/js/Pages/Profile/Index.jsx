@@ -9,7 +9,6 @@ import ModalSettings from "@/Components/ModalSettings.jsx";
 import {useState} from "react";
 import NavbarGuestLayout from "@/Layouts/NavbarGuestLayout.jsx";
 import ProfilePostsGuest from "@/Components/Profile/ProfilePostsGuest.jsx";
-
 export default function Index({ auth, user, posts, followers, following }) {
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
     return (
@@ -24,7 +23,7 @@ export default function Index({ auth, user, posts, followers, following }) {
                     <div className="container lg:p-5 max-w-5xl">
                         <main>
                             <ProfileHeader user={user} posts={posts} followers={followers} following={following} setIsSettingsModalOpen={setIsSettingsModalOpen}></ProfileHeader>
-                            <ProfileHighlights></ProfileHighlights>
+                            <ProfileHighlights user={user}></ProfileHighlights>
                             <ProfilePosts currentUser={auth.user} user={user} posts={posts} followers={followers} following={following}></ProfilePosts>
                         </main>
                         <Footer></Footer>

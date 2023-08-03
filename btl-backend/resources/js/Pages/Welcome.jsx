@@ -7,7 +7,7 @@ import Suggestions from "@/Components/Home/Suggestions.jsx";
 import Footer from "@/Components/Home/Footer.jsx";
 import Login from "@/Pages/Auth/Login.jsx";
 
-export default function Welcome({ auth, posts }) {
+export default function Welcome({ auth, posts, suggestions, stories }) {
     return (
         <>
             <Head title="Welcome" />
@@ -22,7 +22,7 @@ export default function Welcome({ auth, posts }) {
                                 <div className="container pt-9 max-w-5xl">
                                     <main className="grid grid-cols-3">
                                         <div className="md:px-12 lg:px-0 col-span-3 lg:col-span-2">
-                                            <Stories></Stories>
+                                            {stories.length ? (<Stories stories={stories}></Stories>) : (<></>)}
                                             <div className="container pt-5 max-w-lg">
                                                 {posts.map((post) => (
                                                     <Post key={post.id}
@@ -45,7 +45,7 @@ export default function Welcome({ auth, posts }) {
                                         <div className="col-span-1 hidden lg:block">
                                             <div className="fixed p-6 w-80">
                                                 <BasicProfile user={auth.user}></BasicProfile>
-                                                <Suggestions></Suggestions>
+                                                <Suggestions suggestions={suggestions} ></Suggestions>
                                                 <Footer></Footer>
                                             </div>
                                         </div>

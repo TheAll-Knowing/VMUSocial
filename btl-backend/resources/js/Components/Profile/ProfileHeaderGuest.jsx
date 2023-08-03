@@ -3,7 +3,7 @@ export default function ProfileHeaderGuest({user, posts, followers, following}) 
         <>
             <div className="grid grid-cols-3 mb-5">
                 <div className="bg-green p-3 rounded flex items-start justify-center">
-                    <img src={user.image}
+                    <img src={`/storage/`+user.image}
                          alt="Avatar"
                          className="rounded-full"
                          width="150"/>

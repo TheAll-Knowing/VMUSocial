@@ -22,49 +22,64 @@ export default function Post(props) {
         time,
         post,
     } = props;
-    const { data, setData, processing, reset } = useForm({
+    const { data, setData,post:postt, processing, reset } = useForm({
         comment: '',
         postId: id,
     });
     const likePost = async () => {
         try {
-            const response = await axios.post(route('post.like'), {id})
-            setLiked(!liked)
-            setLikeCount(likeCount + 1);
+            postt(route('post.like'),{
+                preserveScroll: true,
+            });
+            setLiked(!liked);
         } catch (error) {
             console.log("error:", error);
         }
     };
     const unLikePost = async () => {
         try {
-            const response = await axios.post(route('post.unlike'), {id})
-            setLiked(!liked)
-            if (initialLike) {setLikeCount(likeCount - 1)}
-            else {setLikeCount(likes)}
+            postt(route('post.unlike'),{
+                preserveScroll: true,
+            });
+            setLiked(!liked);
         } catch (error) {
             console.log("error:", error);
         }
     };
     const commentPost = async () => {
         try {
-            const cmt = data.comment;
-            const response = await axios.post(route('post.comment'), {id,cmt})
+            postt(route('post.comment'),{
+                preserveScroll: true,
+            });
             reset('comment');
-            setCommentCount(commentCount + 1);
         } catch (error) {
             console.log("error:", error);
         }
     };
-    const [likeCount, setLikeCount] = useState(likes);
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            try {
+                postt(route('post.comment'),{
+                    preserveScroll: true,
+                });
+                reset('comment');
+            } catch (error) {
+                console.log("error:", error);
+            }
+        }
+    };
     const [liked, setLiked] = useState(isLikedByUser(currentUserId, postLikes));
-    const initialLike = isLikedByUser(currentUserId, postLikes);
-    const [commentCount, setCommentCount] = useState(comments.length);
-
+    const copy = async () => {
+        await navigator.clipboard.writeText(window.location.href+'post/'+id);
+        alert("Post's URL copied to your clipboard");
+    }
     return(
         <>
             <ModalPostActions
                 open={isModalOpen}
-                setOpen={setIsModalOpen}>
+                setOpen={setIsModalOpen}
+                id={id}
+            >
             </ModalPostActions>
             <ModalPost
                 open={isPostModalOpen}
@@ -102,17 +117,18 @@ export default function Post(props) {
                         <a onClick={() => setIsPostModalOpen(true)} className="mr-4 hover:text-gray-600 cursor-pointer">
                             <FontAwesomeIcon icon={["far", "fa-comment"]} />
                         </a>
-                        <a href="" className="hover:text-gray-600 cursor-pointer">
+                        <a onClick={copy} className="hover:text-gray-600 cursor-pointer">
                             <FontAwesomeIcon icon={["far", "fa-paper-plane"]} />
                         </a>
                     </div>
                     <div className="">
-                        <a href="" className="hover:text-gray-600 cursor-pointer">
+                        <a href="#"
+                           className="hover:text-gray-600 cursor-pointer">
                             <FontAwesomeIcon icon={["far", "fa-bookmark"]} />
                         </a>
                     </div>
                 </div>
-                <div className="font-medium text-sm px-3">{likeCount} likes</div>
+                <div className="font-medium text-sm px-3">{ likes } likes</div>
                 <div className="px-3 mt-1.5 text-sm">
                     <span className="font-medium">{username}</span> {caption}
                 </div>
@@ -123,7 +139,7 @@ export default function Post(props) {
                     <a onClick={()=>setIsPostModalOpen(true)}
                        className="block text-gray-500 px-3 py-2 text-sm cursor-pointer"
                     >
-                    View all { commentCount } comments
+                    View all { comments.length } comments
                     </a>
                 ): ("")
                 }
@@ -135,6 +151,7 @@ export default function Post(props) {
                             type="text"
                             value={data.comment}
                             onChange={(e) => setData('comment', e.target.value)}
+                            onKeyDown={handleKeyDown}
                             className="w-full py-1 text-sm border-0 focus:ring-0"
                             placeholder="Add a comment..."
                             required
