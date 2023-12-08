@@ -6,7 +6,7 @@ export default function BasicProfile(props) {
         <>
             <div className="flex flex-row">
                 <a href={route('profile.show', user.username)}>
-                    <img className="rounded-full" src={`/storage/`+user.image} alt="" width="100"/>
+                    <img className="rounded-full" src={`/storage/`+user.image} alt="" width="80px"/>
                 </a>
                 <div className="w-72 pl-2 m-auto">
                     <div className="text-sm font-medium">

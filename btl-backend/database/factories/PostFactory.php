@@ -19,7 +19,7 @@ class PostFactory extends Factory
     {
         return [
             'caption' => fake()->text(50),
-            'image' => '/images/tx8oe0m8c2ka1.png'
+            'image' => '/uploads/DZAwFokATe3J2WEpw83ZdbTMwwz4cHRfv3QZ84Jp.png'
         ];
     }
 }

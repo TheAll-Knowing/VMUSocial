@@ -20,13 +20,15 @@ export default function Index({ auth, user, posts, followers, following }) {
                     >
                         <Head title="VMUSocial" />
                     </AuthenticatedLayout>
-                    <div className="container lg:p-5 max-w-5xl">
-                        <main>
-                            <ProfileHeader user={user} posts={posts} followers={followers} following={following} setIsSettingsModalOpen={setIsSettingsModalOpen}></ProfileHeader>
-                            <ProfileHighlights user={user}></ProfileHighlights>
-                            <ProfilePosts currentUser={auth.user} user={user} posts={posts} followers={followers} following={following}></ProfilePosts>
-                        </main>
-                        <Footer></Footer>
+                    <div className="w-full ml-[336px]">
+                        <div className="container lg:p-5 w-full w-[975px] mx-auto">
+                            <main>
+                                <ProfileHeader user={user} posts={posts} followers={followers} following={following} setIsSettingsModalOpen={setIsSettingsModalOpen}></ProfileHeader>
+                                <ProfileHighlights user={user}></ProfileHighlights>
+                                <ProfilePosts currentUser={auth.user} user={user} posts={posts} followers={followers} following={following}></ProfilePosts>
+                            </main>
+                            <Footer></Footer>
+                        </div>
                     </div>
                 </div>
             ) : (
@@ -37,7 +39,7 @@ export default function Index({ auth, user, posts, followers, following }) {
                     <div className="container lg:p-5 max-w-5xl">
                         <main>
                             <ProfileHeaderGuest user={user} posts={posts} followers={followers} following={following}></ProfileHeaderGuest>
-                            <ProfileHighlights></ProfileHighlights>
+                            <ProfileHighlights user={user}></ProfileHighlights>
                             <ProfilePostsGuest user={user} posts={posts} followers={followers} following={following}></ProfilePostsGuest>
                         </main>
                         <Footer></Footer>

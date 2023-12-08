@@ -122,7 +122,7 @@ export default function Post(props) {
                         </a>
                     </div>
                     <div className="">
-                        <a href="#"
+                        <a
                            className="hover:text-gray-600 cursor-pointer">
                             <FontAwesomeIcon icon={["far", "fa-bookmark"]} />
                         </a>

@@ -95,8 +95,8 @@ export default function ModalPost(props) {
                                         <div className="px-3 text-sm">
                                             <a href={route('profile.show', post.user.username)}>
                                                 <span className="font-medium hover:text-gray-500">
-                                                {post.user.username}
-                                            </span>
+                                                    {post.user.username}
+                                                </span>
                                             </a>
                                             <span className="ml-2">{post.caption}</span>
                                         </div>

@@ -19,37 +19,39 @@ export default function Welcome({ auth, posts, suggestions, stories }) {
                                 >
                                     <Head title="VMUSocial" />
                                 </AuthenticatedLayout>
-                                <div className="container pt-9 max-w-5xl">
-                                    <main className="grid grid-cols-3">
-                                        <div className="md:px-12 lg:px-0 col-span-3 lg:col-span-2">
-                                            {stories.length ? (<Stories stories={stories}></Stories>) : (<></>)}
-                                            <div className="container pt-5 max-w-lg">
-                                                {posts.map((post) => (
-                                                    <Post key={post.id}
-                                                          id={post.id}
-                                                          currentUserId={auth.user.id}
-                                                          caption={post.caption}
-                                                          image={post.image}
-                                                          username={post.user.username}
-                                                          userImage={post.user.image}
-                                                          likes={post.likes_count}
-                                                          comments={post.comments}
-                                                          postLikes={post.likes}
-                                                          time={post.created_at}
-                                                          post={post}
-                                                    >
-                                                    </Post>
-                                                ))}
+                                <div className="pt-9 w-[calc(100%-336px)] ml-auto">
+                                    <div className="">
+                                        <main className="flex flex-row justify-center">
+                                            <div className="md:px-12 lg:px-0 max-w-[630px] w-full lg:col-span-2">
+                                                {stories.length ? (<Stories stories={stories}></Stories>) : (<></>)}
+                                                <div className="container pt-5 max-w-lg">
+                                                    {posts.map((post) => (
+                                                        <Post key={post.id}
+                                                              id={post.id}
+                                                              currentUserId={auth.user.id}
+                                                              caption={post.caption}
+                                                              image={post.image}
+                                                              username={post.user.username}
+                                                              userImage={post.user.image}
+                                                              likes={post.likes_count}
+                                                              comments={post.comments}
+                                                              postLikes={post.likes}
+                                                              time={post.created_at}
+                                                              post={post}
+                                                        >
+                                                        </Post>
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="col-span-1 hidden lg:block">
-                                            <div className="fixed p-6 w-80">
-                                                <BasicProfile user={auth.user}></BasicProfile>
-                                                <Suggestions suggestions={suggestions} ></Suggestions>
-                                                <Footer></Footer>
+                                            <div className="w-[319px] pl-[64px] hidden lg:block">
+                                                <div className="fixed p-4 pt-0 w-[319px]">
+                                                    <BasicProfile user={auth.user}></BasicProfile>
+                                                    <Suggestions suggestions={suggestions} ></Suggestions>
+                                                    <Footer></Footer>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </main>
+                                        </main>
+                                    </div>
                                 </div>
                             </div>
                         </>

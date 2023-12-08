@@ -95,7 +95,7 @@ export default function Authenticated({ user, children }) {
                     </div>
                 )}
             </Modal>
-                <nav className={`w-20 lg:w-80 sticky top-0 flex flex-col p-5 pt-8 duration-200 h-screen border-r`}>
+                <nav className={`w-20 lg:w-[336px] fixed top-0 flex flex-col p-5 pt-8 duration-200 h-screen border-r`}>
                     <a href={route('/')} className="flex gap-x-4 items-center cursor-pointer">
                         <img src={logo} alt="logo" width="39"/>
                         <h1 className={`font-medium text-xl duration-300 scale-0 ${!isSearchOpen && "lg:scale-100"} ${isSearchOpen && "scale-0"}`}>VMUSocial</h1>

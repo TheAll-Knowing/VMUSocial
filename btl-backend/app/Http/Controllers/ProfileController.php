@@ -56,9 +56,9 @@ class ProfileController extends Controller
             'website' => ['url', 'nullable', 'max:255'],
             'bio' => ['max:255'],
         ]);
-        if ($request->image)
+        if ($request->hasFile('image'))
         {
-            $file = $request->image;
+            $file = $request->file('image');
             $fileUpload = $file->store('profiles', 'public');
             $image = Image::make(public_path("storage/{$fileUpload}"))->fit(1000,1000);
             $image->save();

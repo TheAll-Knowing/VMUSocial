@@ -17,11 +17,13 @@ export default function Index({post}) {
                     <div className="w-2/5 relative pt-16">
                         <div className="absolute top-0 w-full p-3 flex flex-row border-b">
                             <div className="flex-1">
-                                <a >
-                                    <img className="rounded-full w-8 max-w-none inline" src={`/storage/`+post.user.image} alt=""/>
-                                    <span className="font-medium text-sm ml-2">
-                                {post.user.username}
-                            </span>
+                                <a href={route('profile.show', post.user.username)}>
+                                    <img className="rounded-full w-8 max-w-none inline" src={`/storage/`+post.user.image} alt="avt"/>
+                                </a>
+                                <a href={route('profile.show', post.user.username)} className="ml-3">
+                                        <span className="font-medium text-sm hover:text-gray-500">
+                                            {post.user.username}
+                                        </span>
                                 </a>
                             </div>
                             <div className="cursor-pointer">
@@ -31,15 +33,19 @@ export default function Index({post}) {
                         <div className="overflow-y-scroll h-full pb-40">
                             <div className="flex flex-row p-3">
                                 <div>
-                                    <img className="rounded-full w-8 max-w-none inline"
-                                         src={`/storage/`+post.user.image} alt=""/>
+                                    <a href={route('profile.show', post.user.username)}>
+                                        <img className="rounded-full w-8 max-w-none inline"
+                                             src={`/storage/`+post.user.image} alt=""/>
+                                    </a>
                                 </div>
                                 <div>
                                     <div className="px-3 text-sm">
-                                    <span className="font-medium mr-2">
-                                        {post.user.username}
-                                    </span>
-                                        {post.caption}
+                                        <a href={route('profile.show', post.user.username)}>
+                                                <span className="font-medium hover:text-gray-500">
+                                                    {post.user.username}
+                                                </span>
+                                        </a>
+                                        <span className="ml-2">{post.caption}</span>
                                     </div>
                                 </div>
                             </div>
@@ -52,10 +58,12 @@ export default function Index({post}) {
                                     </a>
                                     <div className="grow relative">
                                         <div className="px-4 text-sm">
-                                            <a href={route('profile.show', comment.user.username)} className="font-medium mr-2">
-                                                {comment.user.username}
+                                            <a href={route('profile.show', comment.user.username)}>
+                                                    <span className="font-medium hover:text-gray-500">
+                                                        {comment.user.username}
+                                                    </span>
                                             </a>
-                                            {comment.comment}
+                                            <span className="ml-2">{comment.comment}</span>
                                         </div>
                                     </div>
                                 </div>
