@@ -95,7 +95,7 @@ export default function Authenticated({ user, children }) {
                     </div>
                 )}
             </Modal>
-                <nav className={`w-20 lg:w-[336px] ${isSearchOpen && "lg:w-20"} fixed top-0 flex flex-col p-5 pt-8 duration-200 h-screen border-r`}>
+                <nav className={`w-20 ${isSearchOpen && "lg:w-20"}  ${!isSearchOpen && "lg:w-[336px]"} fixed top-0 z-20 flex flex-col p-5 pt-8 duration-200 h-screen border-r`}>
                     <a href={route('/')} className="flex gap-x-4 items-center cursor-pointer">
                         <img src={logo} alt="logo" width="39"/>
                         <h1 className={`font-medium text-xl duration-300 scale-0 ${!isSearchOpen && "lg:scale-100"} ${isSearchOpen && "scale-0"}`}>VMUSocial</h1>
@@ -115,10 +115,10 @@ export default function Authenticated({ user, children }) {
                             <span className={`hidden ${!isSearchOpen && "lg:inline"} ${isSearchOpen && "hidden"} origin-left duration-250`}>Messages</span>
                         </li>
                         <a onClick={() => openNewPostModal()} className="flex items-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
-                            <div className="text-2xl">
+                            <div className="text-2xl shrink-0">
                                 <FontAwesomeIcon icon="fa-regular fa-square-plus" />
                             </div>
-                            <span className={`hidden ${!isSearchOpen && "lg:inline"} ${isSearchOpen && "hidden"} origin-left duration-250`}>Create Post</span>
+                            <span className={`hidden ${!isSearchOpen && "lg:inline"} ${isSearchOpen && "hidden"} origin-left duration-250 whitespace-nowrap`}>Create Post</span>
                         </a>
                         <ItemLinkProfile href={route('profile.show', user.username)} active={route().current('profile.show', user.username)} user={user} isSearchOpen={isSearchOpen} >Profile</ItemLinkProfile>
                     </ul>
@@ -181,6 +181,7 @@ export default function Authenticated({ user, children }) {
                 </nav>
                 <SearchBar isSearchOpen={isSearchOpen} data={allUsers}></SearchBar>
             <main>{children}</main>
+            <div onClick={() => setIsSearchOpen(!isSearchOpen)} className={`hidden ${isSearchOpen && "lg:block"} bg_search absolute left-[464px] h-screen w-[calc(100%-464px)] bg-black opacity-20 z-20`}></div>
         </>
     );
 }

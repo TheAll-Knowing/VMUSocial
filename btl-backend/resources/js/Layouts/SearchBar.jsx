@@ -18,7 +18,7 @@ export default function SearchBar({isSearchOpen, data}) {
     };
     return (
         <>
-            <div className={`${!isSearchOpen && "scale-x-0"} origin-left duration-150 w-96 top-0 flex flex-col h-screen rounded-r-2xl border-r ${isSearchOpen && "border-l"} bg-white fixed left-20 z-20`}>
+            <div className={`${!isSearchOpen && "scale-x-0"} origin-left duration-150 w-96 top-0 flex flex-col h-screen rounded-r-2xl border-r ${isSearchOpen && "border-l"} bg-white fixed left-20 z-[1]`}>
                 <div className="p-5 pt-6">
                     <span className="text-2xl font-semibold">Search</span>
                 </div>
