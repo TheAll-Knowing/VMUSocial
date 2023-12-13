@@ -10,7 +10,7 @@ export default function ModalSettings(props) {
                 <ul className="w-full text-sm">
                     <li onMouseDown={() => setIsBg1(true)} onMouseUp={() => setIsBg1(false)}
                         onMouseLeave={() => setIsBg1(false)}  className={`${isBg1 ? "bg-gray-200" : ""}`}>
-                        <a href={route('profile.password')} className="border-b text-center py-3 block">
+                        <a href={route('profile.password')} className="border-b text-center py-3 block focus:outline-none">
                             Change Password
                         </a>
                     </li>

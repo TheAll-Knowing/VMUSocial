@@ -9,6 +9,7 @@ use App\Http\Controllers\AddPostCommentController;
 use App\Http\Controllers\AddPostController;
 use App\Http\Controllers\FollowUserController;
 use App\Http\Controllers\UnFollowUserController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,6 +30,7 @@ Route::get('/', [HomeController::class, 'index'])->name('/');
 Route::get('/profile/{user:username}', [ProfileController::class, 'index'])->name('profile.show');
 Route::get('/post/{post}', [PostController::class, 'index'])->name('post.show');
 
+
 Route::middleware('auth')->group(function () {
     Route::get('/accounts/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/accounts/edit', [ProfileController::class, 'update'])->name('profile.update');
@@ -42,5 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::post('p/add', [AddPostController::class, 'store'])->name('post.add');
     Route::post('profile/follow', [FollowUserController::class, 'store'])->name('user.follow');
     Route::post('profile/unfollow', [UnFollowUserController::class, 'store'])->name('user.unfollow');
+    Route::get('/inbox', [MessageController::class, 'index'])->name('inbox.show');
 });
 require __DIR__.'/auth.php';

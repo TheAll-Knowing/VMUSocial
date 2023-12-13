@@ -70,7 +70,7 @@ export default function ModalPost(props) {
                     <div className="w-2/5 relative pt-16">
                         <div className="absolute top-0 w-full p-3 flex flex-row border-b">
                             <div className="flex-1">
-                                    <a href={route('profile.show', post.user.username)}>
+                                    <a href={route('profile.show', post.user.username)} className="focus:outline-none">
                                         <img className="rounded-full w-8 max-w-none inline" src={`/storage/`+post.user.image} alt="avt"/>
                                     </a>
                                     <a href={route('profile.show', post.user.username)} className="ml-3">

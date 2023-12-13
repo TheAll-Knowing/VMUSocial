@@ -12,7 +12,7 @@ import SearchBar from "@/Layouts/SearchBar.jsx";
 export const classNames = (...classes) => {
     return classes.filter(Boolean).join(" ");
 }
-export default function Authenticated({ user, inbox, children }) {
+export default function AuthenticatedLayout_Inbox({ user, children }) {
     const [allUsers, setAllUsers] = useState([]);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isNewPostModalOpen,setIsNewPostModalOpen] = useState(false);
@@ -95,32 +95,32 @@ export default function Authenticated({ user, inbox, children }) {
                     </div>
                 )}
             </Modal>
-                <nav className={`w-20 ${isSearchOpen && "lg:w-20"} ${!isSearchOpen && "lg:w-[336px]"} fixed top-0 z-20 flex flex-col p-5 pt-8 duration-200 h-screen border-r`}>
+                <nav className={`w-20 fixed top-0 z-20 flex flex-col p-5 pt-8 duration-200 h-screen border-r`}>
                     <a href={route('/')} className="flex gap-x-4 items-center cursor-pointer">
                         <img src={logo} alt="logo" width="39"/>
-                        <h1 className={`font-medium text-xl duration-300 scale-0 ${!isSearchOpen && "lg:scale-100"} ${isSearchOpen && "scale-0"}`}>VMUSocial</h1>
+                        <h1 className={`font-medium text-xl duration-300 scale-0`}>VMUSocial</h1>
                     </a>
                     <ul className="pt-6 space-y-5">
-                        <ItemLink href={route('/')} active={route().current('/')} ic="fa-solid fa-house" isSearchOpen={isSearchOpen}>Home</ItemLink>
+                        <ItemLink href={route('/')} active={route().current('/')} ic="fa-solid fa-house" isSearchOpen={isSearchOpen}></ItemLink>
                         <a onClick={() => setIsSearchOpen(!isSearchOpen)} className="flex items-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
                             <div className="text-2xl">
                                 <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" />
                             </div>
-                            <span className={`hidden ${!isSearchOpen && "lg:inline"} ${isSearchOpen && "hidden"} origin-left duration-250`}>Search</span>
+                            <span className={`hidden origin-left duration-250`}>Search</span>
                         </a>
                         <a href={route('inbox.show')} className="flex items-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
                             <div className="text-2xl">
                                 <FontAwesomeIcon icon="fa-regular fa-comment-dots" />
                             </div>
-                            <span className={`hidden ${!isSearchOpen && "lg:inline"} ${isSearchOpen && "hidden"} origin-left duration-250`}>Messages</span>
+                            <span className={`hidden origin-left duration-250`}>Messages</span>
                         </a>
-                        <a onClick={() => openNewPostModal()} className="flex items-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
+                        <a onClick={() => openNewPostModal()} className="flex items-center justify-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
                             <div className="text-2xl shrink-0">
                                 <FontAwesomeIcon icon="fa-regular fa-square-plus" />
                             </div>
-                            <span className={`hidden ${!isSearchOpen && "lg:inline"} ${isSearchOpen && "hidden"} origin-left duration-250 whitespace-nowrap`}>Create Post</span>
+                            <span className={`hidden origin-left duration-250 whitespace-nowrap`}>Create Post</span>
                         </a>
-                        <ItemLinkProfile href={route('profile.show', user.username)} active={route().current('profile.show', user.username)} user={user} isSearchOpen={isSearchOpen} >Profile</ItemLinkProfile>
+                        <ItemLinkProfile href={route('profile.show', user.username)} active={route().current('profile.show', user.username)} user={user} isSearchOpen={isSearchOpen} ></ItemLinkProfile>
                     </ul>
                     <Menu as="div" className="mt-auto gap-x-4 relative text-left">
                         <Menu.Button className="w-full p-2 cursor-pointer rounded-md hover:bg-gray-100">
@@ -130,7 +130,7 @@ export default function Authenticated({ user, inbox, children }) {
                                 </div>
                                 <a
                                     type="button"
-                                    className={`hidden ${!isSearchOpen && "lg:inline"} ${isSearchOpen && "hidden"} origin-left duration-250`}>
+                                    className={`hidden origin-left duration-250`}>
                                     More
                                 </a>
                             </div>

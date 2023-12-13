@@ -21,7 +21,7 @@ export default function Index({ auth, user, posts, followers, following }) {
                         <Head title="VMUSocial" />
                     </AuthenticatedLayout>
                     <div className="w-full ml-[336px]">
-                        <div className="container lg:p-5 w-full w-[975px] mx-auto">
+                        <div className="max-w-[935px] mx-auto  lg:pt-5">
                             <main>
                                 <ProfileHeader user={user} posts={posts} followers={followers} following={following} setIsSettingsModalOpen={setIsSettingsModalOpen}></ProfileHeader>
                                 <ProfileHighlights user={user}></ProfileHighlights>
