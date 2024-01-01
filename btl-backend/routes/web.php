@@ -44,6 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::post('p/add', [AddPostController::class, 'store'])->name('post.add');
     Route::post('profile/follow', [FollowUserController::class, 'store'])->name('user.follow');
     Route::post('profile/unfollow', [UnFollowUserController::class, 'store'])->name('user.unfollow');
-    Route::get('/inbox', [MessageController::class, 'index'])->name('inbox.show');
+
+    Route::get('direct/inbox', [MessageController::class, 'index'])->name('inbox.show');
+    Route::get('direct/t/{user}', [MessageController::class, 'show'])->name('chat.show');
 });
 require __DIR__.'/auth.php';

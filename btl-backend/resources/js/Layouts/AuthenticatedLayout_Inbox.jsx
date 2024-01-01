@@ -96,10 +96,10 @@ export default function AuthenticatedLayout_Inbox({ user, children }) {
                 )}
             </Modal>
                 <nav className={`w-20 fixed top-0 z-20 flex flex-col p-5 pt-8 duration-200 h-screen border-r`}>
-                    <a href={route('/')} className="flex gap-x-4 items-center cursor-pointer">
+                    <Link href={route('/')} className="flex gap-x-4 items-center cursor-pointer">
                         <img src={logo} alt="logo" width="39"/>
                         <h1 className={`font-medium text-xl duration-300 scale-0`}>VMUSocial</h1>
-                    </a>
+                    </Link>
                     <ul className="pt-6 space-y-5">
                         <ItemLink href={route('/')} active={route().current('/')} ic="fa-solid fa-house" isSearchOpen={isSearchOpen}></ItemLink>
                         <a onClick={() => setIsSearchOpen(!isSearchOpen)} className="flex items-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
@@ -108,12 +108,12 @@ export default function AuthenticatedLayout_Inbox({ user, children }) {
                             </div>
                             <span className={`hidden origin-left duration-250`}>Search</span>
                         </a>
-                        <a href={route('inbox.show')} className="flex items-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
+                        <Link href={route('inbox.show')} className="flex items-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
                             <div className="text-2xl">
                                 <FontAwesomeIcon icon="fa-regular fa-comment-dots" />
                             </div>
                             <span className={`hidden origin-left duration-250`}>Messages</span>
-                        </a>
+                        </Link>
                         <a onClick={() => openNewPostModal()} className="flex items-center justify-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
                             <div className="text-2xl shrink-0">
                                 <FontAwesomeIcon icon="fa-regular fa-square-plus" />

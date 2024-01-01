@@ -12,8 +12,15 @@ class MessageController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function index(User $user): Response
+    public function index(): Response
     {
-        return Inertia::render('Inbox/Index', ['user'=>$user]);
+        $users = User::whereNotIn('id', [ auth()->user()->id ])->get();
+        return Inertia::render('Inbox/Inbox', ['users'=>$users]);
+    }
+
+    public function show(User $user): Response
+    {
+        $users = User::whereNotIn('id', [ auth()->user()->id ])->get();
+        return Inertia::render('Inbox/Chat', ['users'=>$users]);
     }
 }
