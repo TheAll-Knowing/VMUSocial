@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AuthenticatedLayout_Inbox from "@/Layouts/AuthenticatedLayout_Inbox.jsx";
 import {Head} from "@inertiajs/react";
 
-export default function Chat({users, auth}) {
+export default function Chat({users, user, auth}) {
     return (
         <>
             <div className="flex">
@@ -19,7 +19,7 @@ export default function Chat({users, auth}) {
                                 <div className="p-1.5">
                                     <a href="">
                                         <span className="h-11 w-11 rounded-full">
-                                            <img className="inline object-cover rounded-full h-11 w-11" src="https://scontent.cdninstagram.com/v/t51.2885-19/331124940_1403019600509378_6735128377955552032_n.jpg?stp=dst-jpg_s100x100&_nc_cat=110&ccb=1-7&_nc_sid=c4dd86&_nc_ohc=rJpA3H3C87EAX_5kMIJ&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.cdninstagram.com&oh=00_AfA-qB67uTMYxmbKVVEm85x81C7y3lYjQDIMs-HKZ5vSOw&oe=658EF46B" alt=""/>
+                                            <img className="inline object-cover rounded-full h-11 w-11" src={`/storage/` + user.image} alt=""/>
                                         </span>
                                     </a>
                                 </div>

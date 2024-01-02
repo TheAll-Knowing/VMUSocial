@@ -21,6 +21,6 @@ class MessageController extends Controller
     public function show(User $user): Response
     {
         $users = User::whereNotIn('id', [ auth()->user()->id ])->get();
-        return Inertia::render('Inbox/Chat', ['users'=>$users]);
+        return Inertia::render('Inbox/Chat', ['users'=>$users,'user'=>$user]);
     }
 }
