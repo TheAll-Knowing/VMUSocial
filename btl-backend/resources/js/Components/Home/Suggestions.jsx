@@ -1,4 +1,5 @@
 import FollowSuggestion from "@/Components/Home/FollowSuggestion.jsx";
+import {Link} from "@inertiajs/react";
 
 export default function Suggestions({suggestions}) {
     return(
@@ -16,15 +17,15 @@ export default function Suggestions({suggestions}) {
                     return (
                         <div key={suggestion.id} className="flex py-2">
                             <div className="flex items-center">
-                                <a href={route('profile.show', suggestion.username)} className="inline-block align-top">
+                                <Link href={route('profile.show', suggestion.username)} className="inline-block align-top">
                                     <img className="rounded-full" src={`/storage/`+suggestion.image}
                                          alt=""
                                          width="35"/>
-                                </a>
+                                </Link>
                                 <div className="inline-block ml-2">
-                                    <a href={route('profile.show', suggestion.username)} className="text-sm font-medium">
+                                    <Link href={route('profile.show', suggestion.username)} className="text-sm font-medium">
                                         {suggestion.username}
-                                    </a>
+                                    </Link>
                                     <div className="text-gray-500 text-xs">
                                         Suggested for you
                                     </div>

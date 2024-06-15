@@ -2,56 +2,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import ChatUser from "@/Components/Inbox/ChatUser.jsx";
 import {useEffect, useState} from "react";
 
-export default function InboxLayout({auth, users, children}) {
-    const [status, setStatus] = useState([]);
-    useEffect(() => {
-        users.map((user) => {
-            setStatus(status=> [
-                ...status,
-                { id: user.id, last: 'Offline' }
-            ]);
-        })
-    }, []);
-    Echo.join('status-update')
-        .here((users)=>{
-            users.map((user) => {
-                if (auth.user.id !== user.id) {
-                    setStatus(status.map(el => {
-                        if (el.id === user.id) {
-                            // Create a *new* object with changes
-                            el.last = 'Active now';
-                        }
-                            // No changes
-                            return el;
-                    }))
-                }
-            })
-        })
-        .joining((user)=>{
-            setStatus(status.map(el => {
-                if (el.id === user.id) {
-                    // Create a *new* object with changes
-                    return { ...el, last: 'Active now' };
-                } else {
-                    // No changes
-                    return el;
-                }
-            }));
-        })
-        .leaving((user)=>{
-            setStatus(status.map(el => {
-                if (el.id === user.id) {
-                    // Create a *new* object with changes
-                    return { ...el, last: 'Offline' };
-                } else {
-                    // No changes
-                    return el;
-                }
-            }));
-        })
-        .listen('UserStatusEvent',(e)=>{
-            // console.log('hh'+e);
-        });
+export default function InboxLayout({users, children, status, userInboxId}) {
+
+
     return (
         <>
             <div className="w-[calc(100%-80px)] ml-auto">
@@ -80,6 +33,7 @@ export default function InboxLayout({auth, users, children}) {
                                           name={user.name}
                                           userImage={user.image}
                                           stt={status}
+                                          userInboxId={userInboxId}
                                 >
                                 </ChatUser>
                             ))}

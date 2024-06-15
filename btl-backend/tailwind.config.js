@@ -17,11 +17,17 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
 
             },
+            colors: {
+                'igPrimaryButton' : '#0095f6', //rgba(0,149,246)
+                'igLink' : '#00376b' //rgba(0,55,107)
+            },
+            borderColor: {
+                DEFAULT: '#dbdbdb'
+            }
         },
         container: {
             center: true,
         },
-
     },
 
     plugins: [forms, require('tailwind-scrollbar-hide')],

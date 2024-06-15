@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -19,3 +20,9 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('status-update', function ($user){
    return $user;
 });
+Broadcast::channel('chat.{channelName}', function (User $user, string $channelName) {
+    list($user1, $user2) = explode('-', $channelName);
+    $user1 = (int) $user1;
+    $user2 = (int) $user2;
+    return $user->id === $user1 || $user->id === $user2;
+},['guards' => ['web', 'admin']]);

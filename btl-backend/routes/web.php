@@ -9,7 +9,7 @@ use App\Http\Controllers\AddPostCommentController;
 use App\Http\Controllers\AddPostController;
 use App\Http\Controllers\FollowUserController;
 use App\Http\Controllers\UnFollowUserController;
-use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ChatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -45,7 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::post('profile/follow', [FollowUserController::class, 'store'])->name('user.follow');
     Route::post('profile/unfollow', [UnFollowUserController::class, 'store'])->name('user.unfollow');
 
-    Route::get('direct/inbox', [MessageController::class, 'index'])->name('inbox.show');
-    Route::get('direct/t/{user}', [MessageController::class, 'show'])->name('chat.show');
+    Route::get('direct/inbox', [ChatController::class, 'index'])->name('inbox.show');
+    Route::get('direct/t/{user}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('direct/chat',[ChatController::class, 'store'])->name('chat.store');
 });
 require __DIR__.'/auth.php';

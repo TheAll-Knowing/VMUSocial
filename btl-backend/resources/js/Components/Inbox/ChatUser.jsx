@@ -7,13 +7,14 @@ export default function ChatUser(props) {
         username,
         name,
         userImage,
+        userInboxId,
     } = props;
     const desiredSt = stt.find((st) => st.id === id);
     return(
         <>
             <div className="">
                 <Link href={route('chat.show', id)}>
-                    <div className="py-2 px-6 hover:bg-gray-50">
+                    <div className={userInboxId === id ? `py-2 px-6 bg-[#efefef]` : `py-2 px-6 hover:bg-gray-50`}>
                         <div className="w-[350px] flex flex-nowrap items-center justify-start">
                             <div className="max-w-full shrink-0">
                                 <div className="pr-3">
