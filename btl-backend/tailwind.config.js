@@ -19,7 +19,12 @@ export default {
             },
             colors: {
                 'igPrimaryButton' : '#0095f6', //rgba(0,149,246)
-                'igLink' : '#00376b' //rgba(0,55,107)
+                'igPrimaryButtonHover' : '#1877f2', //rgba(24,119,242)
+                'igLink' : '#00376b', //rgba(0,55,107)
+                'igSecondaryBackground' : '#fafafa', //rgba(250,250,250)
+                'igSecondaryText' : '#737373', //rgba(115,115,115)
+                'igBadge' : '#ff3040', //rgba(255,48,64)
+                'igActiveStatus' : '#1cd14f' //rgba(28 209 79);
             },
             borderColor: {
                 DEFAULT: '#dbdbdb'

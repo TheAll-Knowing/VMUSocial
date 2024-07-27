@@ -18,29 +18,34 @@ export default function Index({ auth, user, posts, followers, following }) {
                     <AuthenticatedLayout
                         user={auth.user}
                     >
-                        <Head title="VMUSocial" />
-                    </AuthenticatedLayout>
-                    <div className="w-full ml-[336px]">
-                        <div className="max-w-[935px] mx-auto  lg:pt-5">
-                            <main>
-                                <ProfileHeader user={user} posts={posts} followers={followers} following={following} setIsSettingsModalOpen={setIsSettingsModalOpen}></ProfileHeader>
-                                <ProfileHighlights user={user}></ProfileHighlights>
-                                <ProfilePosts currentUser={auth.user} user={user} posts={posts} followers={followers} following={following}></ProfilePosts>
-                            </main>
-                            <Footer></Footer>
+                        <Head title="VMUSocial"/>
+                        <div className="">
+                            <div className="max-w-[935px] mx-auto  lg:pt-5">
+                                <main>
+                                    <ProfileHeader user={user} posts={posts} followers={followers} following={following}
+                                                   setIsSettingsModalOpen={setIsSettingsModalOpen}></ProfileHeader>
+                                    <ProfileHighlights user={user}></ProfileHighlights>
+                                    <ProfilePosts currentUser={auth.user} user={user} posts={posts}
+                                                  followers={followers} following={following}></ProfilePosts>
+                                </main>
+                                <Footer></Footer>
+                            </div>
                         </div>
-                    </div>
+                    </AuthenticatedLayout>
+
                 </div>
             ) : (
                 <>
                     <NavbarGuestLayout>
-                        <Head title="VMUSocial" />
+                        <Head title="VMUSocial"/>
                     </NavbarGuestLayout>
                     <div className="container lg:p-5 max-w-5xl">
                         <main>
-                            <ProfileHeaderGuest user={user} posts={posts} followers={followers} following={following}></ProfileHeaderGuest>
+                            <ProfileHeaderGuest user={user} posts={posts} followers={followers}
+                                                following={following}></ProfileHeaderGuest>
                             <ProfileHighlights user={user}></ProfileHighlights>
-                            <ProfilePostsGuest user={user} posts={posts} followers={followers} following={following}></ProfilePostsGuest>
+                            <ProfilePostsGuest user={user} posts={posts} followers={followers}
+                                               following={following}></ProfilePostsGuest>
                         </main>
                         <Footer></Footer>
                     </div>

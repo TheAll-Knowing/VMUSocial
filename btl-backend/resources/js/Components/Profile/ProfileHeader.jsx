@@ -1,5 +1,5 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {usePage} from "@inertiajs/react";
+import {Link, usePage} from "@inertiajs/react";
 import {useState} from "react";
 import {isFollowedByUser} from "@/Components/Helpers.jsx";
 export default function ProfileHeader({setIsSettingsModalOpen, user, posts, followers, following}) {
@@ -46,10 +46,10 @@ export default function ProfileHeader({setIsSettingsModalOpen, user, posts, foll
                             <span className={`${followed ? "hidden" : ""} text-sm`}>Follow</span>
                             <span className={`${followed ? "" : "hidden"} text-sm`}>Unfollow</span>
                         </a>
-                        <a
+                        <Link
                             href={route('profile.edit')} className={`${currentUser.id === user.id ? "" : "hidden"} bg-gray-100 ml-4 font-semibold py-1 px-2 rounded-lg text-md hover:bg-gray-200`}>
                             <span className="text-sm">Edit profile</span>
-                        </a>
+                        </Link>
                         <a className={`${currentUser.id === user.id ? "" : "hidden"} ml-4 cursor-pointer`} onClick={() => setIsSettingsModalOpen(true)}>
                             <FontAwesomeIcon icon="fa-solid fa-gear" size="xl" />
                         </a>

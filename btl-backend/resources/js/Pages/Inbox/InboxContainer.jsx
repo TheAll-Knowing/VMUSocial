@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import AuthenticatedLayout_Inbox from "@/Layouts/AuthenticatedLayout_Inbox.jsx";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {Head} from "@inertiajs/react";
 import InboxLayout from "@/Pages/Inbox/InboxLayout.jsx";
 
@@ -41,14 +41,16 @@ export default function InboxContainer ({users, auth, userInboxId,children}) {
     }, []);
     return (
             <div className="flex">
-                <AuthenticatedLayout_Inbox
+                <AuthenticatedLayout
                     user={auth.user}
+                    isChat
                 >
                     <Head title="VMUSocial"/>
-                </AuthenticatedLayout_Inbox>
-                <InboxLayout auth={auth} users={users} status={status} userInboxId={userInboxId}>
-                    {children}
-                </InboxLayout>
+                    <InboxLayout auth={auth} users={users} status={status} userInboxId={userInboxId}>
+                        {children}
+                    </InboxLayout>
+                </AuthenticatedLayout>
+
             </div>
     );
 }

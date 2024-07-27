@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\PostLike;
+use App\Models\User;
+use App\Notifications\LikePost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Psy\Readline\Hoa\Console;
@@ -17,10 +19,15 @@ class LikePostController extends Controller
         $postLikes = PostLike::where('user_id', $userId)->where('post_id', $request->postId)->get();
         //Ignore if liked already
         if ($postLikes->isEmpty()) {
-             PostLike::create([
+            if($userId !== $request->postUserId){
+                $user = User::where('id', $request->postUserId)->first();
+                $post = Post::where('id', $request->postId)->first();
+                $user->notify(new LikePost(auth()->user(), $post));
+            }
+            PostLike::create([
                 'user_id' => $userId,
                 'post_id' => $request->postId,
             ]);
-            }
+        }
     }
 }

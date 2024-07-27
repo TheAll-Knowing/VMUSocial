@@ -14,6 +14,7 @@ export default function ModalPost(props) {
     const { data, setData, post:postt, processing, reset } = useForm({
         comment: '',
         postId: post.id,
+        postUserId: post.user_id,
     });
     const handleClick = () => {
         ref.current.focus();

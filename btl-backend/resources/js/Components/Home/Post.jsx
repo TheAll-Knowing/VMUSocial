@@ -14,6 +14,7 @@ export default function Post(props) {
         currentUserId,
         caption,
         image,
+        postUserId,
         username,
         userImage,
         likes,
@@ -25,6 +26,7 @@ export default function Post(props) {
     const { data, setData,post:postt, processing, reset } = useForm({
         comment: '',
         postId: id,
+        postUserId: postUserId,
     });
     const likePost = async () => {
         try {

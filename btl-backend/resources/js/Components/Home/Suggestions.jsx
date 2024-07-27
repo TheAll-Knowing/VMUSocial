@@ -9,7 +9,7 @@ export default function Suggestions({suggestions}) {
                     Suggested for you
                 </div>
                 <div className="w-32 text-sm text-right">
-                    <a href="#" className="text-black-400 text-xs">See All</a>
+                    <Link href="" className="text-black-400 text-xs">See All</Link>
                 </div>
             </div>
             <ul className="p-1">

@@ -88,9 +88,12 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
-    public function search(): JsonResponse
+    public function search(Request $request): JsonResponse
     {
-        $users = User::all();
-        return response()->json(['results'=> $users],200);
+        $searchParam = $request->query('q');
+        $users = User::query()->where('username', 'LIKE', "%{$searchParam}%")->get();
+        return response()->json([
+            'users' => $users,
+        ]);
     }
 }

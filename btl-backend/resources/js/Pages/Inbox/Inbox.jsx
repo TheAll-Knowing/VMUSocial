@@ -1,6 +1,5 @@
 import InboxLayout from "@/Pages/Inbox/InboxLayout.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import AuthenticatedLayout_Inbox from "@/Layouts/AuthenticatedLayout_Inbox.jsx";
 import {Head} from "@inertiajs/react";
 import InboxContainer from "@/Pages/Inbox/InboxContainer.jsx";
 

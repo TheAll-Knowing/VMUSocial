@@ -2,22 +2,85 @@ import logo from './assets/vmu.svg';
 import ItemLink from '@/Components/NavItemsLink/ItemLink';
 import ItemLinkProfile from '@/Components/NavItemsLink/ItemLinkProfile'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { Menu, Transition } from '@headlessui/react'
-import {Link} from "@inertiajs/react";
-import {Fragment, useCallback, useEffect, useState} from "react";
+import {Menu, Transition} from '@headlessui/react'
+import {Link, router, usePage} from "@inertiajs/react";
+import {createContext, Fragment, useCallback, useEffect, useState} from "react";
 import Modal from "@/Components/Modal.jsx";
 import {useDropzone} from "react-dropzone";
 import PostPreview from "@/Components/PostPreview.jsx";
 import SearchBar from "@/Layouts/SearchBar.jsx";
+import NotificationBar from "@/Layouts/NotificationBar.jsx";
+import axios from "axios";
+
+export const MessageContext = createContext();
+
 export const classNames = (...classes) => {
     return classes.filter(Boolean).join(" ");
 }
-export default function Authenticated({ user, children }) {
-    const [allUsers, setAllUsers] = useState([]);
+export default function Authenticated({user, isChat = false, children}) {
+    const {auth} = usePage().props
+
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [isNewPostModalOpen,setIsNewPostModalOpen] = useState(false);
+    const [isNewPostModalOpen, setIsNewPostModalOpen] = useState(false);
     const [files, setFiles] = useState([]);
     const [caption, setCaption] = useState("");
+
+    // notifications
+    const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+    const [isNotificationBadge, setIsNotificationBadge] = useState(false);
+    const [notifications, setNotifications] = useState(auth.notifications);
+    // message notifications
+    const [unReadMessage, setUnReadMessage] = useState(auth.unReadMessages);
+
+    const updatedNewUnreadMessage = (notification) => {
+        let ifExist = false;
+        const newUnreadMessage = unReadMessage.map( msg => {
+            if (msg.sender_id !== notification.sender_id) {
+                return msg;
+            }
+            else {
+                ifExist = true;
+                return {
+                    ...msg,
+                    data: {
+                        message: notification.data.message,
+                    },
+                    created_at: notification.created_at
+                };
+            }
+        });
+        if (ifExist) {
+            setUnReadMessage(newUnreadMessage);
+        }
+        else {
+            setUnReadMessage([
+                ...unReadMessage,
+                notification
+            ]);
+        }
+    }
+
+    useEffect(() => {
+        const isRead = auth.unReadNotifications;
+        if (isRead) {
+            setIsNotificationBadge(true);
+        }
+        Echo.private('App.Models.User.' + auth.user.id)
+            .notification( (notification) => {
+                if (notification.type === 'sendMessage-notification') {
+                    if (window.location.href !== route('chat.show',notification.sender_id)){
+                        updatedNewUnreadMessage(notification);
+                    }
+                } else {
+                    setNotifications((prev) => [notification, ...prev]);
+                    setIsNotificationBadge(true);
+                }
+            });
+        return () => {
+            Echo.leave('App.Models.User.' + auth.user.id);
+        };
+    }, []);
+
     const onDrop = useCallback(acceptedFiles => {
         setFiles(
             acceptedFiles.map((file) =>
@@ -26,14 +89,6 @@ export default function Authenticated({ user, children }) {
         );
     }, [])
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
-    useEffect(()=> {
-        const getUsers = async () => {
-            const getRes = await fetch(route('user.search'));
-            const setUsers = await getRes.json();
-            setAllUsers(await setUsers.results);
-        };
-        getUsers().then(r => {});
-    },[]);
     const isFileDropped = () => {
         return files.length !== 0;
     }
@@ -57,13 +112,22 @@ export default function Authenticated({ user, children }) {
                 }
             });
             setIsNewPostModalOpen(false);
-            window.location.href = ('/profile/' + user.username);
+            router.visit(route('profile.show', user));
         } catch (error) {
             console.log("error:", error.response.data);
         }
     };
+    const markNotificationsRead = async () => {
+        try {
+            const response = await axios.get(route('markRead'));
+            setIsNotificationBadge(false);
+        } catch (error) {
+            console.error(error);
+        }
+    }
     return (
-        <>
+        // Create context to pass unread message prop to InboxLayout.jsx
+        <MessageContext.Provider value={{ unReadMessage, setUnReadMessage}}>
             <Modal title="Create new post"
                    open={isNewPostModalOpen}
                    setOpen={setIsNewPostModalOpen}
@@ -76,7 +140,7 @@ export default function Authenticated({ user, children }) {
                          className="flex flex-col items-center justify-center h-full"
                     >
                         <input {...getInputProps()} />
-                        <FontAwesomeIcon icon="fa-solid fa-photo-film" size="2xl" />
+                        <FontAwesomeIcon icon="fa-solid fa-photo-film" size="2xl"/>
                         <h2 className="py-3 text-2xl font-light">
                             Drag photos and videos here
                         </h2>
@@ -96,45 +160,77 @@ export default function Authenticated({ user, children }) {
                 )}
             </Modal>
             <nav
-                className={`w-20 ${isSearchOpen && "lg:w-20"} ${!isSearchOpen && "lg:w-[336px]"} fixed top-0 z-20 flex flex-col p-5 pt-8 duration-200 h-screen border-r`}>
-                {/*<a href={route('/')} className="flex gap-x-4 items-center cursor-pointer">*/}
-                {/*    <img src={logo} alt="logo" width="39"/>*/}
-                {/*    <h1 className={`font-medium text-xl duration-300 scale-0 ${!isSearchOpen && "lg:scale-100"} ${isSearchOpen && "scale-0"}`}>VMUSocial</h1>*/}
-                {/*</a>*/}
+                className={`w-20 ${(isSearchOpen || isNotificationOpen) && "lg:w-20"} ${!isSearchOpen && !isNotificationOpen && !isChat && "lg:w-[336px]"} fixed top-0 z-20 flex flex-col p-5 pt-8 duration-200 h-screen border-r`}>
                 <Link href={route('/')} className="flex gap-x-4 items-center cursor-pointer">
                     <img src={logo} alt="logo" width="39"/>
-                    <h1 className={`font-medium text-xl duration-300 scale-0 ${!isSearchOpen && "lg:scale-100"} ${isSearchOpen && "scale-0"}`}>VMUSocial</h1>
+                    <h1 className={`font-medium text-xl duration-300 scale-0 ${!isSearchOpen && !isNotificationOpen && !isChat && "lg:scale-100"} ${(isSearchOpen || isNotificationOpen) && "scale-0"}`}>VMUSocial</h1>
                 </Link>
                 <ul className="pt-6 space-y-5">
                     <ItemLink href={route('/')} active={route().current('/')} ic="fa-solid fa-house"
-                              isSearchOpen={isSearchOpen}>Home</ItemLink>
-                    <a onClick={() => setIsSearchOpen(!isSearchOpen)}
+                              isSearchOpen={isSearchOpen}
+                              isNotificationOpen={isNotificationOpen}
+                              isChat={isChat}
+                    >Home</ItemLink>
+                    <a onClick={() => {
+                        setIsNotificationOpen(false);
+                        setIsSearchOpen(!isSearchOpen);
+                    }}
                        className="flex items-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
                         <div className="text-2xl">
                             <FontAwesomeIcon icon="fa-solid fa-magnifying-glass"/>
                         </div>
                         <span
-                            className={`hidden ${!isSearchOpen && "lg:inline"} ${isSearchOpen && "hidden"} origin-left duration-250`}>Search</span>
+                            className={`hidden ${!isSearchOpen && !isNotificationOpen && !isChat && "lg:inline"} ${(isSearchOpen || isNotificationOpen) && "hidden"} origin-left duration-250`}>Search</span>
                     </a>
                     <Link href={route('inbox.show')}
-                       className="flex items-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
-                        <div className="text-2xl">
+                          className="flex items-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
+                        <div className="relative text-2xl">
                             <FontAwesomeIcon icon="fa-regular fa-comment-dots"/>
+                            {(Object.keys(unReadMessage).length > 0) && (
+                                <div className="absolute -top-0.5 -right-2">
+                                    <div
+                                        className="w-4 h-4 bg-igBadge rounded-full border-[2px] border-white box-content flex justify-center items-center">
+                                        <span className="text-xs text-white">{Object.keys(unReadMessage).length}</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                         <span
-                            className={`hidden ${!isSearchOpen && "lg:inline"} ${isSearchOpen && "hidden"} origin-left duration-250`}>Messages</span>
+                            className={`hidden ${!isSearchOpen && !isNotificationOpen && !isChat && "lg:inline"} ${(isSearchOpen || isNotificationOpen) && "hidden"} origin-left duration-250`}>Messages</span>
                     </Link>
+                    <a onClick={() => {
+                        setIsSearchOpen(false);
+                        setIsNotificationOpen(!isNotificationOpen);
+                        markNotificationsRead();
+                    }}
+                       className="flex items-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
+                        <div className="relative text-2xl">
+                            <FontAwesomeIcon icon="fa-regular fa-bell"/>
+                            {isNotificationBadge && (
+                                <div className="absolute top-0.5 -right-1">
+                                    <div
+                                        className="w-2 h-2 bg-igBadge rounded-full border-[2px] border-white box-content">
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        <span
+                            className={`hidden ${!isSearchOpen && !isNotificationOpen && !isChat && "lg:inline"} ${(isSearchOpen || isNotificationOpen) && "hidden"} origin-left duration-250`}>Notifications</span>
+                    </a>
                     <a onClick={() => openNewPostModal()}
                        className="flex items-center gap-x-4 cursor-pointer p-2 rounded-md hover:bg-gray-100">
                         <div className="text-2xl shrink-0">
                             <FontAwesomeIcon icon="fa-regular fa-square-plus"/>
                         </div>
                         <span
-                            className={`hidden ${!isSearchOpen && "lg:inline"} ${isSearchOpen && "hidden"} origin-left duration-250 whitespace-nowrap`}>Create Post</span>
+                            className={`hidden ${!isSearchOpen && !isNotificationOpen && !isChat && "lg:inline"} ${(isSearchOpen || isNotificationOpen) && "hidden"} origin-left duration-250 whitespace-nowrap`}>Create Post</span>
                     </a>
                     <ItemLinkProfile href={route('profile.show', user.username)}
                                      active={route().current('profile.show', user.username)} user={user}
-                                     isSearchOpen={isSearchOpen}>Profile</ItemLinkProfile>
+                                     isSearchOpen={isSearchOpen}
+                                     isNotificationOpen={isNotificationOpen}
+                                     isChat={isChat}
+                    >Profile</ItemLinkProfile>
                 </ul>
                 <Menu as="div" className="mt-auto gap-x-4 relative text-left">
                     <Menu.Button className="w-full p-2 cursor-pointer rounded-md hover:bg-gray-100">
@@ -144,7 +240,7 @@ export default function Authenticated({ user, children }) {
                             </div>
                             <a
                                 type="button"
-                                className={`hidden ${!isSearchOpen && "lg:inline"} ${isSearchOpen && "hidden"} origin-left duration-250`}>
+                                className={`hidden ${!isSearchOpen && !isNotificationOpen && !isChat && "lg:inline"} ${(isSearchOpen || isNotificationOpen) && "hidden"} origin-left duration-250`}>
                                 More
                             </a>
                         </div>
@@ -194,10 +290,19 @@ export default function Authenticated({ user, children }) {
                     </Transition>
                 </Menu>
             </nav>
-            <SearchBar isSearchOpen={isSearchOpen} data={allUsers}></SearchBar>
-            <main>{children}</main>
-            <div onClick={() => setIsSearchOpen(!isSearchOpen)}
-                 className={`hidden ${isSearchOpen && "lg:block"} bg_search absolute left-[464px] h-screen w-[calc(100%-464px)] bg-black opacity-20 z-20`}></div>
-        </>
+            <SearchBar isSearchOpen={isSearchOpen}></SearchBar>
+            <NotificationBar
+                isNotificationOpen={isNotificationOpen}
+                notifications={notifications}
+            >
+            </NotificationBar>
+            <main className={`w-full ${!isChat && "ml-[336px]"}`}>{children}</main>
+            <div onClick={() => {
+                setIsSearchOpen(false);
+                setIsNotificationOpen(false);
+            }}
+                 className={`hidden ${(isSearchOpen || isNotificationOpen) && "lg:block"} bg_search fixed left-[464px] h-screen w-[calc(100%-464px)] bg-black opacity-20 z-20`}>
+            </div>
+        </MessageContext.Provider>
     );
 }

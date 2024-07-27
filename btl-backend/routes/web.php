@@ -48,5 +48,13 @@ Route::middleware('auth')->group(function () {
     Route::get('direct/inbox', [ChatController::class, 'index'])->name('inbox.show');
     Route::get('direct/t/{user}', [ChatController::class, 'show'])->name('chat.show');
     Route::post('direct/chat',[ChatController::class, 'store'])->name('chat.store');
+
+    Route::get('markAsRead', function(){
+        return auth()->user()->unreadNotifications->where('type', '<>', 'sendMessage-notification')->markAsRead();
+    })->name('markRead');
+    Route::post('markAsMessageRead', function(Request $request){
+        return auth()->user()->unreadNotifications->where('type', 'sendMessage-notification')
+            ->where('sender_id', $request->sender_id)->markAsRead();
+    })->name('markMessageRead');
 });
 require __DIR__.'/auth.php';

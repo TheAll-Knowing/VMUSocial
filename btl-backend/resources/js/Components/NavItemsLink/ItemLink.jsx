@@ -1,7 +1,7 @@
 import { Link } from '@inertiajs/react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-export default function ItemLink({ active = false, className = '',ic, children, isSearchOpen, ...props }) {
+export default function ItemLink({ active = false, className = '',ic, children, isSearchOpen, isNotificationOpen, isChat, ...props }) {
     return (
         <Link
             {...props}
@@ -10,13 +10,13 @@ export default function ItemLink({ active = false, className = '',ic, children, 
                         <div className="text-2xl">
                             <FontAwesomeIcon icon={ic} />
                         </div>
-                        <span className={`hidden ${!isSearchOpen && "lg:inline"} ${isSearchOpen && "hidden"} text-lg font-bold origin-left duration-250`}>{children}</span>
+                        <span className={`hidden ${!isSearchOpen && !isNotificationOpen && "lg:inline"} ${(isSearchOpen || isNotificationOpen) && "hidden"} text-lg font-bold origin-left duration-250`}>{children}</span>
                       </>)
                     : (<>
                         <div className="text-2xl">
                             <FontAwesomeIcon icon={ic} />
                         </div>
-                        <span className={`hidden ${!isSearchOpen && "lg:inline"} ${isSearchOpen && "hidden"} origin-left duration-250`}>{children}</span>
+                        <span className={`hidden ${!isSearchOpen && !isNotificationOpen && !isChat && "lg:inline"} ${(isSearchOpen || isNotificationOpen) && "hidden"} origin-left duration-250`}>{children}</span>
                       </>)
             }
         </Link>

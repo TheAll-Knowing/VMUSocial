@@ -1,9 +1,10 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import ChatUser from "@/Components/Inbox/ChatUser.jsx";
-import {useEffect, useState} from "react";
+import {useContext, useState} from "react";
+import {MessageContext} from "@/Layouts/AuthenticatedLayout.jsx"
 
 export default function InboxLayout({users, children, status, userInboxId}) {
-
+    const {unReadMessage, setUnReadMessage} = useContext(MessageContext);
 
     return (
         <>
@@ -26,17 +27,23 @@ export default function InboxLayout({users, children, status, userInboxId}) {
                             </div>
                         </div>
                         <div className="flex flex-col overflow-y-auto">
-                            {users.map((user) => (
-                                <ChatUser key={user.id}
-                                          id={user.id}
-                                          username={user.username}
-                                          name={user.name}
-                                          userImage={user.image}
-                                          stt={status}
-                                          userInboxId={userInboxId}
-                                >
-                                </ChatUser>
-                            ))}
+                            {users.map((user) => {
+                                const message = unReadMessage.find(message => message.sender_id === user.id);
+                                const hasMessage = Boolean(message);
+                                return (
+                                    <ChatUser key={user.id}
+                                              id={user.id}
+                                              username={user.username}
+                                              name={user.name}
+                                              userImage={user.image}
+                                              stt={status}
+                                              userInboxId={userInboxId}
+                                              message={hasMessage ? message.data.message : null}
+                                              timeMessage={hasMessage ? message.created_at : null}
+                                    >
+                                    </ChatUser>
+                                );
+                            })}
                         </div>
                     </div>
                     <div className="grow">

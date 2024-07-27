@@ -27,5 +27,6 @@ class AddPostController extends Controller
             'caption' => $request->caption,
             'image' => $fileUpload,
         ]);
+//        return to_route('profile.show', $user);
     }
 }
